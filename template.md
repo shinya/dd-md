@@ -5,13 +5,13 @@
 1. Move to target path
 
 ```bash
-cd :path:
+cd {path}
 ```
 
 2. exec command
 
 ```bash
-./exec.sh ":date:"
+./exec.sh "{date}"
 ```
 
 ## Phase 2
@@ -19,5 +19,5 @@ cd :path:
 3. Check to logs.
 
 ```bash
-tail -f :path2:
+tail -f {path2}
 ```

@@ -13,7 +13,8 @@ import (
 
 const (
 	targetMark             = ":"
-	sectionName            = "variables"
+	markerSection          = "marker"
+	variablesSection       = "variables"
 	settingFileName        = "setting.ini"
 	inputeMarkdownFileName = "template.md"
 	// outputDirectory        = "output"
@@ -58,14 +59,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	settings := readSetting(*settingFilePath)
+	variables := readSetting(*settingFilePath, variablesSection)
+	markers := readSetting(*settingFilePath, markerSection)
 	markdown := readMd(*templateMarkdownFilePath)
 
-	// 設定数の分置換処理を実行する
-	for _, v := range settings.KeyStrings() {
-		//		fmt.Println(k, v, settings.Key(v))
+	startMaker := markers.Key("start").String()
+	if startMaker == "" {
+		startMaker = targetMark
+	}
 
-		markdown = strings.ReplaceAll(markdown, targetMark+v+targetMark, settings.Key(v).String())
+	endMaker := markers.Key("end").String()
+	if endMaker == "" {
+		endMaker = targetMark
+	}
+
+	// 設定数の分置換処理を実行する
+	for _, v := range variables.KeyStrings() {
+		markdown = strings.ReplaceAll(markdown, startMaker+v+endMaker, variables.Key(v).String())
 	}
 
 	// 指定があれば書き込み。なければ標準出力
@@ -80,7 +90,7 @@ func main() {
 }
 
 // 設定ファイルの読み込み
-func readSetting(fileName string) *ini.Section {
+func readSetting(fileName string, sectionName string) *ini.Section {
 	cfg, err := ini.Load(fileName)
 	if err != nil {
 		log.Fatal(err)
