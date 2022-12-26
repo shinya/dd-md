@@ -2,8 +2,24 @@
 
 ## Installation
 
+### Install
+
 ```bash
 go install github.com/shinya/dd-md@latest
+```
+
+### Uninstall
+
+* Confirm(dry run)
+
+```bash
+go clean -i -n github.com/shinya/dd-md
+```
+
+* Execution
+
+```bash
+go clean -i github.com/shinya/dd-md
 ```
 
 ## Usage
