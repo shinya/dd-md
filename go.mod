@@ -1,4 +1,4 @@
-module dd-md
+module github.com/shinya/dd-md
 
 go 1.17
 
